@@ -1,0 +1,21 @@
+{
+  "name": "adonis-class-validator",
+  "version": "1.0.0",
+  "description": "Validate request via class decorators",
+  "main": "index.js",
+  "dependencies": {
+    "mrm": "^3.0.1"
+  },
+  "devDependencies": {
+    "@adonisjs/core": "^5.0.4-preview-rc-2.1",
+    "eslint": "^7.24.0",
+    "eslint-plugin-adonis": "^1.3.0"
+  },
+  "scripts": {
+    "mrm": "mrm --preset=@adonisjs/mrm-preset",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext=.ts"
+  },
+  "author": "",
+  "license": "MIT"
+}
