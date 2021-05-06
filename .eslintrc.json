@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "plugin:adonis/typescriptPackage"
-  ]
+  "extends": ["plugin:adonis/typescriptPackage", "prettier"]
 }

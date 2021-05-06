@@ -1,0 +1,6 @@
+{
+  "typescript": true,
+  "providers": [
+    "@adonisjs/core"
+  ]
+}

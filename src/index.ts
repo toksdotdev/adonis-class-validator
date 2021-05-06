@@ -8,41 +8,72 @@ import {
   ObjectType,
   ArrayType,
   FileType,
+  SchemaObject,
+  SchemaArray,
+  SchemaLiteral,
+  TypedSchema,
 } from "@ioc:Adonis/Core/Validator";
+
+import { Constructor } from "../contracts/common";
 
 /**
  * Declare validation rule.
  *
- * @param schema Adonis Validation Schema
+ * @param paramSchema Adonis Validation Schema
  * @returns
  */
-export const rule = (schema: SchemaType) => (
-  target: any,
-  propertyKey: string
-) => {
-  if (target.__validationSchema == undefined) {
-    target.__validationSchema = {
-      cacheKey: target.constructor.name,
-    };
-  }
-
-  if (isObjectSchema(target[propertyKey])) {
-    (target[propertyKey] as ReturnType<ObjectType>).members(
-      target[propertyKey].__validationSchema
-    );
-  } else {
-    target.__validationSchema[propertyKey] = schema;
-  }
-};
-
-export const isObjectSchema = (schema: SchemaType) => {
-  return (schema as ReturnType<ObjectType>).members != undefined;
+export const rule = function (paramSchema: SchemaType) {
+  return function (target: any, propertyKey: string) {
+    const validationSchema = getTargetValidatorSchema(target);
+    validationSchema.meta[propertyKey] = paramSchema as any;
+  };
 };
 
 /**
- * Supported Adonis base schemas.
+ * Convert a class to a member type.
+ *
+ * @param nestedClass Class
+ * @returns Member type.
  */
-export type SchemaType =
+export const nested = <T>(nestedClass: Constructor<T>): TypedSchema =>
+  getTargetValidatorSchema(nestedClass).meta;
+
+/**
+ * Get the schema of a target.
+ *
+ * @param target Target
+ * @returns Validation Schema.
+ */
+export const getTargetValidatorSchema = (target: any): ClassValidatorSchema => {
+  const id = "@__validatorSchema";
+  const prototype = (target && target.prototype) || target;
+  if (prototype?.[id]) return prototype[id];
+
+  const cacheKey = `${__dirname}.${prototype.constructor.name}`;
+  prototype[id] = { cacheKey, meta: {} };
+  return prototype[id];
+};
+
+/**
+ * Class validator schema.
+ */
+type ClassValidatorSchema = {
+  key: string;
+  meta: TypedSchema;
+};
+
+/**
+ * Types that have members.
+ */
+export type MemberType = {
+  t: { [x: string]: any };
+  getTree(): SchemaLiteral | SchemaArray | SchemaObject;
+};
+
+/**
+ * Supported class validation base schemas (leverages default Adonis types).
+ */
+type SchemaType =
   | ReturnType<StringType>
   | ReturnType<BooleanType>
   | ReturnType<NumberType>
@@ -51,4 +82,5 @@ export type SchemaType =
   | ReturnType<EnumSetType>
   | ReturnType<ObjectType>
   | ReturnType<ArrayType>
-  | ReturnType<FileType>;
+  | ReturnType<FileType>
+  | MemberType;

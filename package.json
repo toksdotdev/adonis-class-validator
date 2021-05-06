@@ -1,21 +1,41 @@
 {
   "name": "adonis-class-validator",
   "version": "1.0.0",
-  "description": "Validate request via class decorators",
-  "main": "index.js",
-  "dependencies": {
-    "mrm": "^3.0.1"
-  },
+  "description": "Adonis validation for classes",
+  "main": "build/src/index.js",
+  "dependencies": {},
   "devDependencies": {
+    "@adonisjs/assembler": "^5.1.0",
     "@adonisjs/core": "^5.0.4-preview-rc-2.1",
+    "@adonisjs/mrm-preset": "^3.0.0",
+    "@adonisjs/require-ts": "^2.0.3",
+    "@adonisjs/validator": "^11.0.0",
+    "@types/source-map-support": "^0.5.3",
     "eslint": "^7.24.0",
-    "eslint-plugin-adonis": "^1.3.0"
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-adonis": "^1.3.0",
+    "execa": "^5.0.0",
+    "get-port": "^5.1.1",
+    "japa": "^3.1.1",
+    "mrm": "^3.0.1",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^4.2.4"
   },
   "scripts": {
+    "pretest": "npm run lint && tsc --noEmit",
+    "test": "node -r @adonisjs/assembler/build/register japaFile.ts",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --ext=.ts"
+    "lint": "eslint . --ext=.ts",
+    "clean": "rm -rf build",
+    "compile": "npm run lint && npm run clean && tsc",
+    "build": "npm run compile",
+    "prepublishOnly": "npm run build"
   },
-  "author": "",
-  "license": "MIT"
+  "author": "Tochukwu Nkemdilim",
+  "license": "MIT",
+  "files": [
+    "build/src",
+    "build/contracts",
+    "build/providers"
+  ]
 }

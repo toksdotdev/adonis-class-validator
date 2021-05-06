@@ -1,8 +1,16 @@
 {
+  "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig",
   "compilerOptions": {
-    "types": [
-      "@types/node",
-      "@adonisjs/core"
-    ]
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "pretty": true,
+    "lib": ["esnext"],
+    "types": ["@types/node", "@adonisjs/core"]
   }
 }
