@@ -1,4 +1,4 @@
-# 🚦 Adonis Class Validator
+# 🛡 Adonis Class Validator
 
 Adonis Class Validator provides a means to validate a request data using a class schema.
 
@@ -51,7 +51,7 @@ class SignupController {
 }
 ```
 
-## 🏆 Going Deeper
+## ⚓️ Going Deeper
 
 There are currently 2 decorators supported for validation. They include:
 
