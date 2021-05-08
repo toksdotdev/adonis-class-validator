@@ -6,7 +6,7 @@ export class NoSchema {
 }
 
 class AddressPoint {
-  @validate(schema.string({}, [rules.required()]))
+  @validate(schema.string({}, [rules.email()]))
   public uniqueId!: String;
 }
 

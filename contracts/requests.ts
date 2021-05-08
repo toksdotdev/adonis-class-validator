@@ -15,3 +15,7 @@ declare module "@ioc:Adonis/Core/Request" {
     ): Promise<T>;
   }
 }
+
+declare module "AdonisClassValidator" {
+  import {} from "../src";
+}

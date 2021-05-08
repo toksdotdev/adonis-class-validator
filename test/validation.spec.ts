@@ -6,6 +6,7 @@ import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 test.group("Class Validation", () => {
   test("doesn't validate on empty schema", (assert: Assert) => {
+    console.log({} instanceof NoSchema);
     assert.deepEqual(
       schema.create(getValidatorBag(NoSchema).schema),
       schema.create({})
