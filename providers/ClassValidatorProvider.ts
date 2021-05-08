@@ -1,6 +1,6 @@
 import { schema } from "@ioc:Adonis/Core/Validator";
 import { ApplicationContract } from "@ioc:Adonis/Core/Application";
-import { Constructor, ClassValidatorArg } from "../contracts/common";
+import { Class, ClassValidatorArg } from "../contracts/common";
 import { RequestConstructorContract } from "@ioc:Adonis/Core/Request";
 
 /*
@@ -30,14 +30,14 @@ export default class ClassValidatorProvider {
     this.app.container.with(
       ["Adonis/Core/Request"],
       async (request: RequestConstructorContract) => {
-        const { getTargetValidatorSchema } = await import("../src/index");
+        const { getValidatorSchema } = await import("../src/index");
 
         request.macro("classValidate", async function classValidate<
           T
-        >(this: any, validatorClass: Constructor<T>, args?: ClassValidatorArg): Promise<T> {
-          const schemaTemplate = getTargetValidatorSchema(validatorClass);
+        >(this: any, validatorClass: Class<T>, args?: ClassValidatorArg): Promise<T> {
+          const schemaTemplate = getValidatorSchema(validatorClass);
           const data = await this.validate({
-            schema: schema.create(schemaTemplate.meta),
+            schema: schema.create(schemaTemplate.schema),
             cacheKey: schemaTemplate.key,
             ...args,
           });
