@@ -92,7 +92,7 @@ class User {
 
 #### Custom Messages
 
-> When `request.classValidate(...)` is called against the `User` schema [above](#nested-validation-&-message), the custom message that'll generated and used for the failed validation will be:
+> When `request.classValidate(...)` is called against the `User` schema [above](#nested-validation), the custom message that'll generated and used for the failed validation will be:
 
 ```json
 {
@@ -115,7 +115,10 @@ class UserPayload {
 export default class UsersController {
   public async index({ request }: HttpContextContract) {
     const payload = request.classValidate(UserPayload);
-    console.log(payload instanceof SignupPayload); // true (but the data wasn't validated becasue no property in the class had a schema).
+
+    // Payload wasn't validated because the class doesnt have a property
+    // decorated with a schema.
+    console.log(payload instanceof SignupPayload); // true
   }
 }
 ```
