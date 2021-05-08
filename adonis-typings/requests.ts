@@ -1,6 +1,6 @@
-import { ClassValidatorArg, Class } from "@ioc:Adonis/ClassValidator/Shared";
-
 declare module "@ioc:Adonis/Core/Request" {
+  import { ClassValidatorArg, Class } from "@ioc:Adonis/ClassValidator/Shared";
+
   interface RequestContract {
     /**
      * Validate current request using a schema class. The data is

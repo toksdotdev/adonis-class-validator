@@ -1,4 +1,4 @@
-import { schema } from "@ioc:Adonis/Core/Validator";
+import "reflect-metadata";
 import { ApplicationContract } from "@ioc:Adonis/Core/Application";
 import { RequestConstructorContract } from "@ioc:Adonis/Core/Request";
 import { Class, ClassValidatorArg } from "@ioc:Adonis/ClassValidator/Shared";
@@ -35,9 +35,12 @@ export default class ClassValidatorProvider {
    * Bind the class validator to the IOC.
    */
   private bindClassValidator() {
+    const adonisValidator = this.app.container.use("Adonis/Core/Validator");
+
     this.app.container.singleton("Adonis/ClassValidator", () => {
       return {
         validate: require("../src").validate,
+        ...adonisValidator,
       };
     });
   }
@@ -46,7 +49,9 @@ export default class ClassValidatorProvider {
    * Register the `classValidate(...)` macros to the Request instance.
    */
   private registerRequestMacro() {
-    this.app.container.with(
+    const { schema } = this.app.container.use("Adonis/Core/Validator");
+
+    this.app.container.withBindings(
       ["Adonis/Core/Request"],
       (request: RequestConstructorContract) => {
         const { getValidatorBag } = require("../src");
@@ -55,13 +60,13 @@ export default class ClassValidatorProvider {
           T
         >(this: any, validatorClass: Class<T>, args?: ClassValidatorArg): Promise<T> {
           const validatorBag = getValidatorBag(validatorClass);
-          const data = await this.validate({
+          const data: T = await this.validate({
             schema: schema.create(validatorBag.schema),
             cacheKey: validatorBag.key,
             ...args,
           });
 
-          return data as T;
+          return data;
         });
       }
     );

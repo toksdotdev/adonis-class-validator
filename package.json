@@ -1,28 +1,30 @@
 {
   "name": "adonis-class-validator",
   "version": "0.1.0",
-  "description": "Adonis validation for classes",
+  "author": "Tochukwu Nkemdilim",
+  "license": "MIT",
+  "description": "Class validator for adonis framework",
   "main": "build/providers/ClassValidatorProvider.js",
-  "dependencies": {},
-  "peerDependencies": {
-    "@adonisjs/validator": "^11.0.0"
+  "keywords": [
+    "adonis",
+    "validation",
+    "schema",
+    "macros"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TNkemdilim/adonis-class-validator.git"
   },
-  "devDependencies": {
-    "@adonisjs/assembler": "^5.1.0",
-    "@adonisjs/core": "^5.0.4-preview-rc-2.1",
-    "@adonisjs/mrm-preset": "^3.0.0",
-    "@adonisjs/require-ts": "^2.0.3",
-    "@adonisjs/validator": "^11.0.0",
-    "@types/source-map-support": "^0.5.3",
-    "eslint": "^7.24.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-adonis": "^1.3.0",
-    "execa": "^5.0.0",
-    "get-port": "^5.1.1",
-    "japa": "^3.1.1",
-    "mrm": "^3.0.1",
-    "typescript": "^4.2.4"
+  "bugs": {
+    "url": "https://github.com/TNkemdilim/adonis-prometheus/issues"
   },
+  "homepage": "https://github.com/TNkemdilim/-class-validator",
+  "types": "./build/adonis-typings/index.d.ts",
+  "files": [
+    "build/adonis-typings",
+    "build/providers",
+    "build/src"
+  ],
   "scripts": {
     "pretest": "npm run lint && tsc --noEmit",
     "test": "node -r @adonisjs/assembler/build/register japaFile.ts",
@@ -33,19 +35,32 @@
     "build": "npm run compile",
     "prepublishOnly": "npm run build"
   },
-  "author": "Tochukwu Nkemdilim",
-  "license": "MIT",
-  "files": [
-    "src",
-    "build/src",
-    "build/adonis-typings",
-    "build/providers"
-  ],
-  "typings": "./build/adonis-typings/index.d.ts",
   "adonisjs": {
     "types": "adonis-class-validator",
     "providers": [
+      "@adonisjs/validator",
       "adonis-class-validator"
     ]
+  },
+  "dependencies": {
+    "@adonisjs/validator": "^11.0.1",
+    "class-transformer": "^0.4.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^5.1.1",
+    "@adonisjs/core": "^5.1.6",
+    "@adonisjs/http-server": "^5.0.0",
+    "@adonisjs/mrm-preset": "^3.0.0",
+    "@adonisjs/require-ts": "^2.0.4",
+    "@types/source-map-support": "^0.5.3",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-adonis": "^1.3.1",
+    "execa": "^5.0.0",
+    "get-port": "^5.1.1",
+    "japa": "^3.1.1",
+    "mrm": "^3.0.1",
+    "typescript": "^4.2.4"
   }
 }

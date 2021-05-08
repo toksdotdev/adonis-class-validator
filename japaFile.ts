@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { join } from "path";
 import getPort from "get-port";
 import { configure } from "japa";

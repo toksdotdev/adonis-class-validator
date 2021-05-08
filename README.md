@@ -8,8 +8,9 @@ On successfull validation, the data returned from validation is an instance of t
 
 - Convenient nesting of class rules.
 - Easy declaration of custom messages.
-- Validate with existing V5 validation consistent API.
-- Support for all V5 validation features (`custom messages`, `creating custom rules`, `profiling`, `reporting` etc).
+- In-built caching of class schema.
+- Validate with existing V5 validator.
+- Support for all V5 validator features (`custom messages`, `creating custom rules`, `profiling`, `reporting` etc).
 
 ## 📦 Installing
 
@@ -26,15 +27,14 @@ node ace invoke adonis-class-validator
 
 ```ts
 // SignupPayload.ts
-import { validate } from "@ioc:Adonis/ClassValidator";
-import { schema, rules } from "@ioc:Adonis/Core/Validator";
+import { validate, schema, rules } from "@ioc:Adonis/ClassValidator";
 
 class SignupPayload {
   @validate(schema.string({}, [rules.required(), rules.email()]), {
     required: "Field {{name}} is required.",
     email: "Invalid email address",
   })
-  public email!: Number;
+  public email!: string;
 }
 ```
 
@@ -45,7 +45,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
 class SignupController {
   public async index({ request }: HttpContextContract) {
-    const payload = request.classValidate(SignupPayload);
+    const payload = await request.classValidate(SignupPayload);
     console.log(payload instanceof SignupPayload); // true
   }
 }
@@ -105,20 +105,29 @@ As far as the decorated field schema is a `schema.array()` with a `.members(...)
 
 ### Empty Classes
 
-If there are no validation rules specified on a class, no validation will occur.
+If no property in a class was decored with `validate()`, an empty data will be returned (where each feild will be undefined).
 
 ```ts
+// Class Schema (but no schema rule).
 class UserPayload {
   public firstname!: string;
 }
 
+// UserController.ts
 export default class UsersController {
   public async index({ request }: HttpContextContract) {
-    const payload = request.classValidate(UserPayload);
+    const data = await request.classValidate(UserPayload);
 
-    // Payload wasn't validated because the class doesnt have a property
-    // decorated with a schema.
-    console.log(payload instanceof SignupPayload); // true
+    /**
+     * Payload wasn't validated because the class doesnt
+     * have a property decorated with a schema.
+     */
+    console.log(data instanceof SignupPayload); // true
+
+    /**
+     * Data is empty because no property has a validator schema decorator.
+     */
+    console.log(payload); // {}
   }
 }
 ```
