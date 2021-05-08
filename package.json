@@ -1,9 +1,12 @@
 {
   "name": "adonis-class-validator",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Adonis validation for classes",
   "main": "build/providers/ClassValidatorProvider.js",
   "dependencies": {},
+  "peerDependencies": {
+    "@adonisjs/validator": "^11.0.0"
+  },
   "devDependencies": {
     "@adonisjs/assembler": "^5.1.0",
     "@adonisjs/core": "^5.0.4-preview-rc-2.1",
@@ -18,7 +21,6 @@
     "get-port": "^5.1.1",
     "japa": "^3.1.1",
     "mrm": "^3.0.1",
-    "reflect-metadata": "^0.1.13",
     "typescript": "^4.2.4"
   },
   "scripts": {
@@ -34,6 +36,7 @@
   "author": "Tochukwu Nkemdilim",
   "license": "MIT",
   "files": [
+    "src",
     "build/src",
     "build/adonis-typings",
     "build/providers"
