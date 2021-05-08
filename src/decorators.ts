@@ -8,9 +8,8 @@ import {
   Class,
   ValidateDecorator,
   NestedSchemaTypeFn,
-  ValidateNestedDecorator,
   SchemaType,
-} from "../contracts/common";
+} from "@ioc:Adonis/ClassValidator/Shared";
 import { CustomMessages } from "@ioc:Adonis/Core/Validator";
 
 /**
@@ -19,9 +18,10 @@ import { CustomMessages } from "@ioc:Adonis/Core/Validator";
  * @param messages Custom messages for field
  * @returns void
  */
-export const validate: ValidateDecorator & {
-  nested: ValidateNestedDecorator<any>;
-} = (schema: SchemaType, messages?: CustomMessages) => {
+export const validate: ValidateDecorator = (
+  schema: SchemaType,
+  messages?: CustomMessages
+) => {
   return function (target: any, propertyKey: string) {
     const validatorBag = getValidatorBag(target);
     validatorBag.schema[propertyKey] = schema as any;

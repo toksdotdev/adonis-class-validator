@@ -2,7 +2,7 @@
   "name": "adonis-class-validator",
   "version": "1.0.0",
   "description": "Adonis validation for classes",
-  "main": "build/src/index.js",
+  "main": "build/providers/ClassValidatorProvider.js",
   "dependencies": {},
   "devDependencies": {
     "@adonisjs/assembler": "^5.1.0",
@@ -35,7 +35,14 @@
   "license": "MIT",
   "files": [
     "build/src",
-    "build/contracts",
+    "build/adonis-typings",
     "build/providers"
-  ]
+  ],
+  "typings": "./build/adonis-typings/index.d.ts",
+  "adonisjs": {
+    "types": "adonis-class-validator",
+    "providers": [
+      "adonis-class-validator"
+    ]
+  }
 }

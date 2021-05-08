@@ -1,12 +1,11 @@
 import test from "japa";
 import { Assert } from "japa/build/src/Assert";
-import { User, NoSchema } from "./cases/classes";
 import { getValidatorBag } from "../src/utils";
+import { User, NoSchema } from "./cases/classes";
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 test.group("Class Validation", () => {
   test("doesn't validate on empty schema", (assert: Assert) => {
-    console.log({} instanceof NoSchema);
     assert.deepEqual(
       schema.create(getValidatorBag(NoSchema).schema),
       schema.create({})

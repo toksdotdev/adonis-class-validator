@@ -1,7 +1,7 @@
 import { schema } from "@ioc:Adonis/Core/Validator";
 import { ApplicationContract } from "@ioc:Adonis/Core/Application";
-import { Class, ClassValidatorArg } from "../contracts/common";
 import { RequestConstructorContract } from "@ioc:Adonis/Core/Request";
+import { Class, ClassValidatorArg } from "@ioc:Adonis/ClassValidator/Shared";
 
 /*
 |--------------------------------------------------------------------------
@@ -27,18 +27,37 @@ export default class ClassValidatorProvider {
   constructor(protected app: ApplicationContract) {}
 
   public async boot() {
+    this.bindClassValidator();
+    this.registerRequestMacro();
+  }
+
+  /**
+   * Bind the class validator to the IOC.
+   */
+  private bindClassValidator() {
+    this.app.container.singleton("Adonis/ClassValidator", () => {
+      return {
+        validate: require("../src").validate,
+      };
+    });
+  }
+
+  /**
+   * Register the `classValidate(...)` macros to the Request instance.
+   */
+  private registerRequestMacro() {
     this.app.container.with(
       ["Adonis/Core/Request"],
-      async (request: RequestConstructorContract) => {
-        const { getValidatorSchema } = await import("../src/index");
+      (request: RequestConstructorContract) => {
+        const { getValidatorBag } = require("../src");
 
         request.macro("classValidate", async function classValidate<
           T
         >(this: any, validatorClass: Class<T>, args?: ClassValidatorArg): Promise<T> {
-          const schemaTemplate = getValidatorSchema(validatorClass);
+          const validatorBag = getValidatorBag(validatorClass);
           const data = await this.validate({
-            schema: schema.create(schemaTemplate.schema),
-            cacheKey: schemaTemplate.key,
+            schema: schema.create(validatorBag.schema),
+            cacheKey: validatorBag.key,
             ...args,
           });
 

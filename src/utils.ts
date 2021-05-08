@@ -1,5 +1,9 @@
+import {
+  ClassValidatorBag,
+  Class,
+  SchemaType,
+} from "@ioc:Adonis/ClassValidator/Shared";
 import { TypedSchema, CustomMessages } from "@ioc:Adonis/Core/Validator";
-import { ClassValidatorBag, Class, SchemaType } from "../contracts/common";
 
 /**
  * Get the typed schema of a nested validator class.

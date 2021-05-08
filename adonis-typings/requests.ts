@@ -1,4 +1,4 @@
-import { ClassValidatorArg, Class } from "./common";
+import { ClassValidatorArg, Class } from "@ioc:Adonis/ClassValidator/Shared";
 
 declare module "@ioc:Adonis/Core/Request" {
   interface RequestContract {
@@ -14,8 +14,4 @@ declare module "@ioc:Adonis/Core/Request" {
       args?: ClassValidatorArg
     ): Promise<T>;
   }
-}
-
-declare module "AdonisClassValidator" {
-  import {} from "../src";
 }
