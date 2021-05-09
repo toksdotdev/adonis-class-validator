@@ -1,4 +1,4 @@
-# 🛡 Adonis Class Validator
+# Adonis Class Validator
 
 Adonis Class Validator provides a means to validate a request data using a class schema.
 
@@ -62,11 +62,13 @@ There are currently 2 decorators supported for validation. They include:
 
 ### Nested Validation
 
-To nested other class validator schema, simply rely on the `@validate.nested()` decorator. It'll require:
+To nest a class validator schema, simply rely on the `@validate.nested()` decorator. It requires:
 
-- The class validator schema of the nested field.
-- A callback that returned the nested field schema (the member of the class schema is injected into the callback).
-- An `optional` message object.
+- The `class validator schema` of the nested field.
+- A `callback` that whose:
+  - `parameter`: is a adonis member equivalent of the validator schema.
+  - `return type`: is the adonis schema to use to validate the nested field (which is either an `array` or `object`).
+- An `optional` custom message object.
 
 > Custom messages also support interpolation e.g. `Field {{name}} is required`.
 
@@ -94,7 +96,7 @@ class User {
 
 #### Custom Messages
 
-> When `request.classValidate(...)` is called against the `User` schema [above](#nested-validation), the custom message that'll generated and used for the failed validation will be:
+When `request.classValidate(...)` is called against the `User` schema [above](#nested-validation), the custom message generated and used for the failed validation will be:
 
 ```json
 {
@@ -103,7 +105,7 @@ class User {
 }
 ```
 
-As far as the decorated field schema is a `schema.array()` with a `.members(...) of nested validation class`, it'll be automatically understand it as the deep matching (`.*.`) formatter.
+> As far as the decorated field schema is a `schema.array()` with a `.members(...) of nested validation class`, it infers that it as the deep matching (`.*.`) patter matcher.
 
 ### Empty Classes
 

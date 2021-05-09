@@ -43,7 +43,7 @@ export class User {
       schema
         .array([rules.minLength(2)])
         .members(schema.object().members(address)),
-    { minLength: "Lenght must be at least 2." }
+    { minLength: "Length must be at least 2." }
   )
   public addresses!: Address[];
 

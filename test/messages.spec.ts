@@ -12,7 +12,7 @@ test.group("Validation Message", () => {
     assert.deepEqual(getValidatorBag(User).messages, {
       "profile.url": "Invalid URL specified.",
       "addresses.*.point.required": "Field is required.",
-      "addresses.minLength": "Lenght must be at least 2.",
+      "addresses.minLength": "Length must be at least 2.",
     });
   });
 });
