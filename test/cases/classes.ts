@@ -1,5 +1,6 @@
 import { validate } from "../../src";
-import { schema, rules } from "@ioc:Adonis/Core/Validator";
+import { rules } from "@adonisjs/validator/build/src/Rules";
+import { schema } from "@adonisjs/validator/build/src/Schema";
 
 export class NoSchema {
   public name!: String;

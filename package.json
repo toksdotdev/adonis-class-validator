@@ -43,9 +43,10 @@
     ]
   },
   "dependencies": {
-    "@adonisjs/validator": "^11.0.1",
-    "class-transformer": "^0.4.0",
     "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "@adonisjs/validator": "^11.0.1"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.1.1",
@@ -53,12 +54,9 @@
     "@adonisjs/http-server": "^5.0.0",
     "@adonisjs/mrm-preset": "^3.0.0",
     "@adonisjs/require-ts": "^2.0.4",
-    "@types/source-map-support": "^0.5.3",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-adonis": "^1.3.1",
-    "execa": "^5.0.0",
-    "get-port": "^5.1.1",
     "japa": "^3.1.1",
     "mrm": "^3.0.1",
     "typescript": "^4.2.4"

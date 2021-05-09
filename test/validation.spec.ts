@@ -2,7 +2,8 @@ import test from "japa";
 import { Assert } from "japa/build/src/Assert";
 import { getValidatorBag } from "../src/utils";
 import { User, NoSchema } from "./cases/classes";
-import { schema, rules } from "@ioc:Adonis/Core/Validator";
+import { rules } from "@adonisjs/validator/build/src/Rules";
+import { schema } from "@adonisjs/validator/build/src/Schema";
 
 test.group("Class Validation", () => {
   test("doesn't validate on empty schema", (assert: Assert) => {
