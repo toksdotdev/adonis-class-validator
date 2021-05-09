@@ -2,7 +2,7 @@
 
 Adonis Class Validator provides a means to validate a request data using a class schema.
 
-On successfull validation, the data returned from validation is an instance of the class schema used to validate the request.
+On successful validation, the data returned from validation is an instance of the class schema used to validate the request.
 
 ## 🎁 Features
 
@@ -103,14 +103,14 @@ class User {
 }
 ```
 
-As far as the decorated field schema is a `schema.array()` with a `.members(...) of nested validation class`, it'll be automatically understand it as the deep matching (`.*.`) fomatter.
+As far as the decorated field schema is a `schema.array()` with a `.members(...) of nested validation class`, it'll be automatically understand it as the deep matching (`.*.`) formatter.
 
 ### Empty Classes
 
-If no property in a class was decored with `validate()`, an empty data will be returned (where each feild will be undefined).
+If no property in a class was decorated with `validate()`, an empty data will be returned (where each field will be undefined).
 
 ```ts
-// Class Schema (but no schema rule).
+// Notice there's no schema rule.
 class UserPayload {
   public firstname!: string;
 }
@@ -121,7 +121,7 @@ export default class UsersController {
     const data = await request.classValidate(UserPayload);
 
     /**
-     * Payload wasn't validated because the class doesnt
+     * Payload wasn't validated because the class doesn't
      * have a property decorated with a schema.
      */
     console.log(data instanceof SignupPayload); // true
