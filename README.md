@@ -51,6 +51,8 @@ class SignupController {
 }
 ```
 
+> For more examples, check [here](./test/cases/classes.ts)
+
 ## ⚓️ Going Deeper
 
 There are currently 2 decorators supported for validation. They include:
