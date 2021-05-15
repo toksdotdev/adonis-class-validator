@@ -1,6 +1,6 @@
 {
   "name": "adonis-class-validator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Tochukwu Nkemdilim",
   "license": "MIT",
   "description": "Class validator for adonis framework",
@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "class-transformer": "^0.4.0",
     "reflect-metadata": "^0.1.13"
   },
   "peerDependencies": {

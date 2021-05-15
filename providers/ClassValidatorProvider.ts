@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { plainToClass } from "class-transformer";
 import { ApplicationContract } from "@ioc:Adonis/Core/Application";
 import { RequestConstructorContract } from "@ioc:Adonis/Core/Request";
 import { Class, ClassValidatorArg } from "@ioc:Adonis/ClassValidator/Shared";
@@ -60,13 +61,13 @@ export default class ClassValidatorProvider {
           T
         >(this: any, validatorClass: Class<T>, args?: ClassValidatorArg): Promise<T> {
           const validatorBag = getValidatorBag(validatorClass);
-          const data: T = await this.validate({
+          const data = await this.validate({
             schema: schema.create(validatorBag.schema),
             cacheKey: validatorBag.key,
             ...args,
           });
 
-          return data;
+          return plainToClass(validatorClass, data);
         });
       }
     );

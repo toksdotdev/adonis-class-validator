@@ -10,6 +10,7 @@ import {
   NestedSchemaTypeFn,
   SchemaType,
 } from "@ioc:Adonis/ClassValidator/Shared";
+import { Type as classTransform } from "class-transformer";
 import { CustomMessages } from "@ioc:Adonis/Core/Validator";
 
 /**
@@ -60,5 +61,8 @@ validate.nested = <T>(
       // Messages added on nested field with reference to current field.
       ...transformMessages(propertyKey, validatorClassMessages, isArray),
     };
+
+    // Initialize nested property for type casting to a class.
+    classTransform(() => validatorClass)(target, propertyKey);
   };
 };
