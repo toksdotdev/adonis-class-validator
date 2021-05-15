@@ -13,12 +13,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TNkemdilim/adonis-class-validator.git"
+    "url": "git+https://github.com/tnkemdilim/adonis-class-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/TNkemdilim/adonis-prometheus/issues"
+    "url": "https://github.com/tnkemdilim/adonis-prometheus/issues"
   },
-  "homepage": "https://github.com/TNkemdilim/-class-validator",
+  "homepage": "https://github.com/tnkemdilim/adonis-class-validator",
   "types": "./build/adonis-typings/index.d.ts",
   "files": [
     "build/adonis-typings",
