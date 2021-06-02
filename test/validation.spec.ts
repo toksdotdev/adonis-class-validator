@@ -11,7 +11,6 @@ import {
   ChildC,
   ParentClass,
   GrandParentClass,
-  // GrandParentClass,
 } from "./cases/classes";
 
 test.group("Class Validation", () => {
@@ -87,6 +86,9 @@ test.group("Class Validation", () => {
             ),
             zipcode: schema.number([rules.required()]),
             point: schema.object([rules.required()]).members({
+              uniqueId: schema.string({}, [rules.required()]),
+            }),
+            optionalPoint: schema.object.optional().members({
               uniqueId: schema.string({}, [rules.required()]),
             }),
           })

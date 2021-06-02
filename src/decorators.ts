@@ -1,16 +1,21 @@
 import {
   nested,
+  schemaIsDate,
   schemaIsArray,
   getValidatorBag,
   transformMessages,
 } from "./utils";
 import {
+  Type as typeAnnotate,
+  Transform as transformAnnotate,
+} from "class-transformer";
+import {
   Class,
+  SchemaType,
   ValidateDecorator,
   NestedSchemaTypeFn,
-  SchemaType,
 } from "@ioc:Adonis/ClassValidator/Shared";
-import { Type as classTransform } from "class-transformer";
+import { DateTime } from "luxon";
 import { CustomMessages } from "@ioc:Adonis/Core/Validator";
 
 /**
@@ -31,6 +36,14 @@ export const validate: ValidateDecorator = (
       ...validatorBag.messages,
       ...(messages ? transformMessages(propertyKey, messages) : {}),
     };
+
+    if (schemaIsDate(schema)) {
+      typeAnnotate(() => String)(target, propertyKey);
+      transformAnnotate(({ value }) => DateTime.fromISO(value))(
+        target,
+        propertyKey
+      );
+    }
   };
 };
 
@@ -63,6 +76,6 @@ validate.nested = <T>(
     };
 
     // Initialize nested property for type casting to a class.
-    classTransform(() => validatorClass)(target, propertyKey);
+    typeAnnotate(() => validatorClass)(target, propertyKey);
   };
 };

@@ -60,6 +60,11 @@ class Address {
     { required: "Field is required." }
   )
   public point!: AddressPoint;
+
+  @validate.nested(AddressPoint, (addressPoint) =>
+    schema.object.optional().members(addressPoint)
+  )
+  public optionalPoint!: AddressPoint;
 }
 
 export class User {

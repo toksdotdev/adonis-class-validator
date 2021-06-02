@@ -67,6 +67,15 @@ export const schemaIsArray = (schema: SchemaType) =>
   "getTree" in schema && (schema as any).getTree().type === "array";
 
 /**
+ * Check if a schema is a date schema.
+ * @param schema Schema to check.
+ * @returns If schema is date.
+ */
+export const schemaIsDate = (schema: SchemaType) => {
+  return "getTree" in schema && (schema as any).getTree().subtype === "date";
+};
+
+/**
  * Generate a unique and ever increasing nonce of length 15.
  * @returns Unique number
  */

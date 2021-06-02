@@ -45,7 +45,7 @@ declare module "@ioc:Adonis/ClassValidator/Shared" {
    * Types that have members.
    */
   export type MemberType = {
-    t: { [x: string]: any };
+    t?: { [x: string]: any } | undefined;
     getTree(): SchemaLiteral | SchemaArray | SchemaObject;
   };
 
