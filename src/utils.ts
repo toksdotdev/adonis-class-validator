@@ -21,13 +21,23 @@ export const nested = <T>(nestedClass: Class<T>): TypedSchema =>
  * @returns Validation Schema.
  */
 export const getValidatorBag = (target: any): ClassValidatorBag => {
+  if (target.constructor.name === "Object") {
+    return { key: "", messages: {}, schema: {} };
+  }
+
   const prototype = target?.prototype || target;
   const metadataKey = `@${prototype.constructor.name}.classValidatorBag`;
   const metadata = Reflect.getMetadata(metadataKey, prototype);
   if (metadata) return metadata;
 
   const key = `${nonce()}.${prototype.constructor.name}`;
-  const validatorBag: ClassValidatorBag = { key, schema: {}, messages: {} };
+  const parentBag = getValidatorBag(Object.getPrototypeOf(target));
+  const validatorBag = {
+    schema: Object.assign({}, parentBag.schema),
+    messages: Object.assign({}, parentBag.messages),
+    key,
+  };
+
   Reflect.defineMetadata(metadataKey, validatorBag, prototype);
   return Reflect.getMetadata(metadataKey, prototype);
 };
@@ -72,26 +82,3 @@ export const nonce = ((length: number = 15) => {
     return +s.substr(s.length - length);
   };
 })();
-
-/**
- * Append child validator bag to parent validator bag.
- * @param childBag Child validator bag.
- * @param parentBag Parent validator bag.
- * @returns Updated child validator bag.
- */
-export const appendToChildValidatorBag = (
-  childBag: ClassValidatorBag,
-  parentBag: ClassValidatorBag
-): ClassValidatorBag => {
-  childBag.schema = {
-    ...parentBag.schema,
-    ...childBag.schema,
-  };
-
-  childBag.messages = {
-    ...parentBag.messages,
-    ...childBag.messages,
-  };
-
-  return childBag;
-};
