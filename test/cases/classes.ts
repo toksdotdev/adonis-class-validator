@@ -11,7 +11,12 @@ class AddressPoint {
   public uniqueId!: String;
 }
 
-export class BaseClass {
+export class GrandParentClass {
+  @validate(schema.number())
+  public totalSiblings!: number;
+}
+
+export class ParentClass extends GrandParentClass {
   @validate(schema.number())
   public id!: number;
 
@@ -22,17 +27,17 @@ export class BaseClass {
   public lastName!: string;
 }
 
-export class ChildA extends BaseClass {
+export class ChildA extends ParentClass {
   @validate(schema.string(), { hello: "required" })
   public alias!: string;
 }
 
-export class ChildB extends BaseClass {
+export class ChildB extends ParentClass {
   @validate(schema.string())
   public status!: string;
 }
 
-export class ChildC extends BaseClass {
+export class ChildC extends ParentClass {
   @validate(schema.string())
   public signature!: string;
 }

@@ -3,7 +3,16 @@ import { Assert } from "japa/build/src/Assert";
 import { getValidatorBag } from "../src/utils";
 import { rules } from "@adonisjs/validator/build/src/Rules";
 import { schema } from "@adonisjs/validator/build/src/Schema";
-import { User, NoSchema, ChildA, ChildB, ChildC } from "./cases/classes";
+import {
+  User,
+  NoSchema,
+  ChildA,
+  ChildB,
+  ChildC,
+  ParentClass,
+  GrandParentClass,
+  // GrandParentClass,
+} from "./cases/classes";
 
 test.group("Class Validation", () => {
   test("doesn't validate on empty schema", (assert: Assert) => {
@@ -14,16 +23,31 @@ test.group("Class Validation", () => {
   });
 
   test("validation rules are correct for inherited classes", (assert: Assert) => {
-    const baseRules = {
+    const grandParentRules = {
+      totalSiblings: schema.number(),
+    };
+
+    const parentRules = {
+      ...grandParentRules,
       id: schema.number(),
       firstName: schema.string(),
       lastName: schema.string(),
     };
 
     assert.deepEqual(
+      schema.create(getValidatorBag(GrandParentClass).schema),
+      schema.create(grandParentRules)
+    );
+
+    assert.deepEqual(
+      schema.create(getValidatorBag(ParentClass).schema),
+      schema.create(parentRules)
+    );
+
+    assert.deepEqual(
       schema.create(getValidatorBag(ChildA).schema),
       schema.create({
-        ...baseRules,
+        ...parentRules,
         alias: schema.string(),
       })
     );
@@ -31,7 +55,7 @@ test.group("Class Validation", () => {
     assert.deepEqual(
       schema.create(getValidatorBag(ChildB).schema),
       schema.create({
-        ...baseRules,
+        ...parentRules,
         status: schema.string(),
       })
     );
@@ -39,7 +63,7 @@ test.group("Class Validation", () => {
     assert.deepEqual(
       schema.create(getValidatorBag(ChildC).schema),
       schema.create({
-        ...baseRules,
+        ...parentRules,
         signature: schema.string(),
       })
     );

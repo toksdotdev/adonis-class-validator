@@ -33,7 +33,7 @@
     "clean": "rm -rf build",
     "compile": "npm run lint && npm run clean && tsc",
     "build": "npm run compile",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "adonisjs": {
     "types": "adonis-class-validator",
