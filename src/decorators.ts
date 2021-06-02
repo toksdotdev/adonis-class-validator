@@ -3,6 +3,7 @@ import {
   schemaIsArray,
   getValidatorBag,
   transformMessages,
+  appendToChildValidatorBag,
 } from "./utils";
 import {
   Class,
@@ -24,7 +25,10 @@ export const validate: ValidateDecorator = (
   messages?: CustomMessages
 ) => {
   return function (target: any, propertyKey: string) {
-    const validatorBag = getValidatorBag(target);
+    let validatorBag = appendToChildValidatorBag(
+      getValidatorBag(target), // Child (current class) Schema
+      getValidatorBag(Object.getPrototypeOf(target)) // Parent Schema
+    );
     validatorBag.schema[propertyKey] = schema as any;
 
     validatorBag.messages = {

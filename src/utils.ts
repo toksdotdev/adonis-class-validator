@@ -21,8 +21,8 @@ export const nested = <T>(nestedClass: Class<T>): TypedSchema =>
  * @returns Validation Schema.
  */
 export const getValidatorBag = (target: any): ClassValidatorBag => {
-  const metadataKey = "@classValidatorBag";
-  const prototype = (target && target.prototype) || target;
+  const prototype = target?.prototype || target;
+  const metadataKey = `@${prototype.constructor.name}.classValidatorBag`;
   const metadata = Reflect.getMetadata(metadataKey, prototype);
   if (metadata) return metadata;
 
@@ -72,3 +72,26 @@ export const nonce = ((length: number = 15) => {
     return +s.substr(s.length - length);
   };
 })();
+
+/**
+ * Append child validator bag to parent validator bag.
+ * @param childBag Child validator bag.
+ * @param parentBag Parent validator bag.
+ * @returns Updated child validator bag.
+ */
+export const appendToChildValidatorBag = (
+  childBag: ClassValidatorBag,
+  parentBag: ClassValidatorBag
+): ClassValidatorBag => {
+  childBag.schema = {
+    ...parentBag.schema,
+    ...childBag.schema,
+  };
+
+  childBag.messages = {
+    ...parentBag.messages,
+    ...childBag.messages,
+  };
+
+  return childBag;
+};

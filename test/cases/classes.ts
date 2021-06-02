@@ -11,6 +11,32 @@ class AddressPoint {
   public uniqueId!: String;
 }
 
+export class BaseClass {
+  @validate(schema.number())
+  public id!: number;
+
+  @validate(schema.string())
+  public firstName!: string;
+
+  @validate(schema.string())
+  public lastName!: string;
+}
+
+export class ChildA extends BaseClass {
+  @validate(schema.string(), { hello: "required" })
+  public alias!: string;
+}
+
+export class ChildB extends BaseClass {
+  @validate(schema.string())
+  public status!: string;
+}
+
+export class ChildC extends BaseClass {
+  @validate(schema.string())
+  public signature!: string;
+}
+
 class Address {
   @validate(
     schema.string({ escape: true }, [rules.required(), rules.minLength(10)])
