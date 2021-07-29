@@ -53,6 +53,29 @@ class SignupController {
 
 > For more examples, check [here](./test/cases/classes.ts)
 
+## Standalone Validator
+
+If you want to make use of the validator class schema to validate any form of data (outside the controller), you can easily rely on the standalone `ClassValidator.validate(...)` helper function.
+
+> NOTE: If the validation fails, an instance of ValidationException is thrown.
+
+```ts
+import {
+  ClassValidator,
+  ValidationException,
+} from "@ioc:Adonis/ClassValidator";
+
+async function sendEmail() {
+  try {
+    const payload = await ClassValidator.validate(SignupPayload, {
+      email: "hello@stallsone.com",
+    });
+  } catch (err) {
+    // if validation error occurs, `err` is an instance of `ValidationException`
+  }
+}
+```
+
 ## ⚓️ Going Deeper
 
 There are currently 2 decorators supported for validation. They include:

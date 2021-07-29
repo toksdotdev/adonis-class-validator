@@ -6,7 +6,7 @@ import { schema } from "@adonisjs/validator/build/src/Schema";
 import { validator } from "@adonisjs/validator/build/src/Validator";
 import { Class, ClassValidatorArg } from "@ioc:Adonis/ClassValidator/Shared";
 
-export class ClassValidate {
+export class ClassValidator {
   /**
    * Validate data using a class schema.
    * @param validatorClass Validator class.
