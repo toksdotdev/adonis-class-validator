@@ -1,14 +1,14 @@
 import test from "japa";
 import { DateTime } from "luxon";
+import { ClassValidator } from "../src";
 import { validate } from "../src/decorators";
 import { Assert } from "japa/build/src/Assert";
-import { getValidatorBag } from "../src/utils";
-import { plainToClass } from "class-transformer";
+import { AddressPoint, NoSchema } from "./cases/classes";
 import { schema } from "@adonisjs/validator/build/src/Schema";
-import { validator } from "@adonisjs/validator/build/src/Validator/index";
+import { ValidationException } from "@adonisjs/validator/build/src/ValidationException";
 
-test.group("Class Validation and Transform", () => {
-  test("Date field is formatted and transformed correctly", async (assert: Assert) => {
+test.group("ClassValidator", () => {
+  test("ClassValidator.validate(...) formats and transforms correctly", async (assert: Assert) => {
     const dob = "2001-02-12";
     const format = "yyyy-MM-dd";
 
@@ -17,14 +17,39 @@ test.group("Class Validation and Transform", () => {
       public dob!: DateTime;
     }
 
-    const validatorBag = getValidatorBag(DateSchema);
-    const data = await validator.validate({
-      schema: schema.create(validatorBag.schema),
-      cacheKey: validatorBag.key,
-      data: { dob },
-    });
+    const actual = await ClassValidator.validate(DateSchema, { dob });
+    assert.deepEqual(actual, { dob: DateTime.fromFormat(dob, format) });
+  });
 
-    const classData = plainToClass(DateSchema, data);
-    assert.deepEqual(classData.dob, DateTime.fromFormat(dob, format));
+  test("ClassValidator.validate(...) validates correctly", async (assert: Assert) => {
+    const expected: AddressPoint = { uniqueId: "hello world" };
+    const actual = await ClassValidator.validate(AddressPoint, expected);
+    assert.deepEqual(actual, expected);
+  });
+
+  test("ClassValidator.validate(...) fails on invalid input validation", async (assert: Assert) => {
+    assert.plan(1);
+
+    try {
+      const expected = { uniqueId: 2 };
+      await ClassValidator.validate(AddressPoint, expected);
+    } catch (err) {
+      assert.instanceOf(err, ValidationException);
+    }
+  });
+
+  test("ClassValidator.validate(...) fails on empty input validation", async (assert: Assert) => {
+    assert.plan(1);
+
+    try {
+      await ClassValidator.validate(AddressPoint, {});
+    } catch (err) {
+      assert.instanceOf(err, ValidationException);
+    }
+  });
+
+  test("ClassValidator.validate(...) succeeds with empty validation schema", async (assert: Assert) => {
+    const actual = await ClassValidator.validate(NoSchema, { hello: "hi" });
+    assert.deepEqual(actual as any, {});
   });
 });

@@ -6,7 +6,7 @@ export class NoSchema {
   public name!: String;
 }
 
-class AddressPoint {
+export class AddressPoint {
   @validate(schema.string({}, [rules.required()]))
   public uniqueId!: String;
 }
